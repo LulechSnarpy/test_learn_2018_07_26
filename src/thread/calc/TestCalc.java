@@ -3,7 +3,7 @@ package thread.calc;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
-//++ -- ·ÇÔ­×ÓĞÔ
+//++ -- éåŸå­æ€§
 public class TestCalc {
 	static int i=0;
 	final static Thread thread1 = new Thread(){

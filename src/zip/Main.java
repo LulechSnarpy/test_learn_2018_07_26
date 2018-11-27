@@ -1,23 +1,12 @@
 package zip;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URL;
-import java.security.SecureRandom;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-
+import org.apache.commons.io.FileUtils;
 import org.apache.tools.zip.ZipEntry;
 import org.apache.tools.zip.ZipOutputStream;
 
@@ -28,55 +17,10 @@ public class Main {
 		//zip.setEncoding(StandardCharsets.UTF_8.name());
 		//File file = new File("D:/Documents/Tencent Files/1272045703/Image/Group");
 		//File file = new File("https://192.168.1.214:8080/person/sys/file/download/5339");
-		try {		
-			SSLContext sc = SSLContext.getInstance("TLS");
-			sc.init(null, new TrustManager[] { new X509TrustManager() {
-				@Override
-				public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-				}
-		 
-		 
-				@Override
-				public void checkServerTrusted(X509Certificate[] chain, String authType)
-		 
-		 
-				throws CertificateException {
-				}
-		 
-		 
-				@Override
-				public X509Certificate[] getAcceptedIssuers() {
-					return null;
-				}
-			} }, new SecureRandom());
-			HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-			HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
-				@Override
-				public boolean verify(String arg0, SSLSession arg1) {
-					return true;
-				}
-			});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		String https = "https://192.168.1.214:8080/person/sys/file/download/5339";
-		try {
-			HttpsURLConnection conn = (HttpsURLConnection) new URL(https).openConnection();
-			conn.setDoOutput(true);
-			conn.setDoInput(true);
-			conn.connect();
-			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			StringBuffer sb = new StringBuffer();
-			String line;
-			while ((line = br.readLine()) != null)
-				sb.append(line);		 
-			System.out.println(sb.toString());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	/*	URL url= new URL("https://192.168.1.214:8080/person/sys/file/download/5339");
-		FileUtils.copyURLToFile(url, new File("D://tt.xlsx"));*/
+		
+		URL url= new URL("http://192.168.1.247:8080/acl/sys/file/download/912");
+		FileUtils.copyURLToFile(url, new File("D://tt.jpg"));
+		
 		//System.out.println(url.getContent());
 		//URI uri = new URI("https://192.168.1.214:8080/person/sys/file/download/5339");
 		//File file = new File(uri);
