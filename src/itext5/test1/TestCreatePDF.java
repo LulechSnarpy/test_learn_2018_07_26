@@ -1,9 +1,19 @@
 package itext5.test1;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Entities;
 
 import com.itextpdf.text.Anchor;
 import com.itextpdf.text.BaseColor;
@@ -27,6 +37,7 @@ import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.tool.xml.XMLWorkerHelper;
 
 /**
  * @see https://blog.csdn.net/qq_39181568/article/details/80003903
@@ -60,7 +71,9 @@ public class TestCreatePDF {
 			//9.
 			//addShuiYinByTempete(out);
 			//10.
-			insertHeadAndFoot(out);
+			//insertHeadAndFoot(out);
+			//11.
+			CreatePdfByXml(out);
 		}
 	}
 	
@@ -731,6 +744,35 @@ public class TestCreatePDF {
 	   		
 	   		doc.close();
 	   	}
+	   	
+	   	/**
+	   	* 将非标准的html强转换成形式
+	   	*/
+	   	public static String html2xhtml(String html) {
+			org.jsoup.nodes.Document doc = Jsoup.parse(html);
+			doc.outputSettings().syntax(org.jsoup.nodes.Document.OutputSettings.Syntax.xml).escapeMode(Entities.EscapeMode.xhtml);
+			return doc.html();
+		}
+	   	
+	  	public static void CreatePdfByXml(OutputStream out) throws Exception{
+	  		Document document = new Document(PageSize.A4, 30, 30, 30, 30);
+	  		PdfWriter writer = PdfWriter.getInstance(document, out);
+	  		document.open();
+	  		BufferedReader reader = new BufferedReader(new FileReader("./source/file/test.html"));
+	  		StringBuffer buffer = new StringBuffer();
+	  		String temp = null;
+	  		while ((temp = reader.readLine()) != null) {
+	  			buffer.append(temp);
+	  		}
+	  		reader.close();
+	  		// html 文件输入流 
+	   		InputStream inputStream = new ByteArrayInputStream(html2xhtml(buffer.toString()).getBytes("UTF-8"));
+			// css 文件输入流
+			InputStream cssStream = new BufferedInputStream(new FileInputStream("./source/file/test.css"));
+			XMLWorkerHelper.getInstance().parseXHtml(writer, document, inputStream, cssStream,Charset.forName("UTF-8"));
+			document.close();
+			cssStream.close();
+	  	}
 }
 
 class PdfPageHelper extends PdfPageEventHelper {
