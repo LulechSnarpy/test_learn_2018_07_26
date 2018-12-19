@@ -15,13 +15,13 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class HtmlToExcelUtil {
-	public void CreateHeadByHtml (InputStream htmlStream, Workbook wb,Sheet sheet,String title) throws IOException {
+	public int CreateHeadByHtml (InputStream htmlStream, Workbook wb,Sheet sheet,String title) throws IOException {
 		Document doc = Jsoup.parse(htmlStream, "UTF-8", "");
 		Elements  tables = doc.select("table");
-		if (tables.isEmpty()) return;
+		if (tables.isEmpty()) return 0;
 		Element table = tables.first();
 		Elements  trs = table.select("tr");
-		if (trs.isEmpty()) return;
+		if (trs.isEmpty()) return 0;
 		// 预计算单元格大小范围
 		int totalrow = 0;
 		int totalcol = 0;
@@ -96,6 +96,7 @@ public class HtmlToExcelUtil {
 			}
 			trow++;
 		}
+		return trow;
 	}
 	
 	private void fillVis(int s1, int e1, int s2, int e2, boolean[][] vis){

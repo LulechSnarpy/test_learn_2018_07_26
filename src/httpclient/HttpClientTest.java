@@ -6,14 +6,16 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 public class HttpClientTest {
 	
 	public static void main(String[] args) throws Exception{
-		  getCon();
-		// getCon1();
+		 // getCon();
+		 getCon1();
 	}
 	
 	// HttpGet
@@ -40,18 +42,18 @@ public class HttpClientTest {
 	
 	// WebDriver
 	public static void getCon1() throws Exception {
-		// Chrome
-		//System.setProperty("webdriver.chrome.driver", "./source/file/chromedriver.exe");
-		//WebDriver driver = new ChromeDriver();
+		// Chrome 
+		System.setProperty("webdriver.chrome.driver", "./source/file/chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
 		
 		// FireFoxweb
-		System.setProperty("webdriver.gecko.driver", "./source/file/geckodriver.exe");
-		WebDriver driver = new FirefoxDriver();
+		//System.setProperty("webdriver.gecko.driver", "./source/file/geckodriver.exe");
+		//WebDriver driver = new FirefoxDriver();
 		driver.get("http://ishare.iask.sina.com.cn/f/14938810.html");
-	/*	WebElement nextLink = driver.findElement(By.className(".page-next"));
+		WebElement nextLink = driver.findElement(By.className(".page-next"));
 		WebElement pageSize = driver.findElement(By.className("page-input-con")).findElement(By.tagName("span"));
-		System.out.println(pageSize.getText());*/
-		//nextLink.click();
-		driver.quit();
+		System.out.println(pageSize.getText());
+		nextLink.click();
+		//driver.quit();
 	}
 }

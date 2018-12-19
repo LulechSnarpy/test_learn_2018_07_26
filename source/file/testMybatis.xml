@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.commnetsoft.admin.dao.sys.UploadTempDao">
+	<resultMap id="BaseResultMap" type="com.commnetsoft.admin.model.sys.UploadTempQuery">
+		<id column="ID" property="id" jdbcType="INTEGER"/>
+		<result column="ORGIDS" property="orgids" jdbcType="VARCHAR"/>
+		<result column="APPROVENUM" property="approvenum" jdbcType="VARCHAR"/>
+		<result column="APPROVEFILEID" property="approvefileid" jdbcType="INTEGER"/>
+		<result column="FILENAME" property="filename" jdbcType="VARCHAR"/>
+		<result column="KEYWORD" property="keyword" jdbcType="VARCHAR"/>
+		<result column="APPROVEDATE" property="approvedate" jdbcType="VARCHAR"/>
+		<result column="FILESOURCE" property="filesource" jdbcType="INTEGER"/>
+		<result column="THIRDDOCID" property="thirddocid" jdbcType="VARCHAR"/>
+		<result column="FILERELATED" property="filerelated" jdbcType="INTEGER"/>
+		<result column="FILETYPE" property="filetype" jdbcType="INTEGER"/>
+		<result column="NAME" property="name" jdbcType="VARCHAR"/>
+		<result column="NAMEPINY" property="namepiny" jdbcType="VARCHAR"/>
+		<result column="FILESUFFIX" property="filesuffix" jdbcType="VARCHAR"/>
+		<result column="DIRID" property="dirid" jdbcType="INTEGER"/>
+		<result column="FILEID" property="fileid" jdbcType="INTEGER"/>
+		<result column="SIZE" property="size" jdbcType="INTEGER"/>
+		<result column="EXPIREDATE" property="expiredate" jdbcType="TIMESTAMP"/>
+		<result column="DOWNNUM" property="downnum" jdbcType="INTEGER"/>
+		<result column="URL" property="url" jdbcType="VARCHAR"/>
+		<result column="CREATEUSER" property="createuser" jdbcType="INTEGER"/>
+		<result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP"/>
+		<result column="UPDATEUSER" property="updateuser" jdbcType="INTEGER"/>
+		<result column="UPDATETIME" property="updatetime" jdbcType="TIMESTAMP"/>
+		<result column="DELFLAG" property="delflag" jdbcType="INTEGER"/>
+	</resultMap>
+	<sql id="Base_Column_List">
+	  t.ID,t.ORGIDS,t.APPROVENUM,t.APPROVEFILEID,t.FILENAME,t.KEYWORD,t.APPROVEDATE,t.FILESOURCE,t.THIRDDOCID,t.FILERELATED,t.FILETYPE,t.CREATEUSER,t.CREATETIME,t.UPDATEUSER,t.UPDATETIME,t.DELFLAG
+	  ,t2.NAME,t2.NAMEPINY,t2.FILESUFFIX,t2.DIRID,t2.FILEID,t2.SIZE,t2.EXPIREDATE,t2.DOWNNUM,t3.URL
+	</sql>
+	<sql id="Base_Where_Clause">
+		
+		<where>
+		   
+			<trim prefixOverrides="and">
+		      and t.delflag = 0
+			   
+				<if test="id != null"> and t.id =#{id}</if>
+			    
+				<if test="orgids != null"> and t.orgids = #{orgids}</if>
+			    
+				<if test="approvenum != null"> and t.approvenum = #{approvenum}</if>
+			    
+				<if test="approvenumLike != null">and t.approvenum like CONCAT("%",#{approvenumLike},"%")</if>
+			    
+				<if test="approvefileid != null"> and t.approvefileid = #{approvefileid}</if>
+			    
+				<if test="filename != null"> and t.filename = #{filename}</if>
+			    
+				<if test="keyword != null"> and t.keyword = #{keyword}</if>
+			    
+				<if test="approvedate != null"> and t.approvedate = #{approvedate}</if>
+			    
+				<if test="filesource != null"> and t.filesource = #{filesource}</if>
+			    
+				<if test="thirddocid != null"> and t.thirddocid = #{thirddocid}</if>
+			    
+				<if test="filerelated != null"> and t.filerelated = #{filerelated}</if>
+			    
+				<if test="filetype != null"> and t.filetype = #{filetype}</if>
+			    
+				<if test="createuser != null"> and t.createuser = #{createuser}</if>
+			    
+				<if test="createtime != null"> and t.createtime = #{createtime}</if>
+			    
+				<if test="updateuser != null"> and t.updateuser = #{updateuser}</if>
+			    
+				<if test="updatetime != null"> and t.updatetime = #{updatetime}</if>
+			    
+				<if test="delflag != null"> and t.delflag = #{delflag}</if>
+			    
+			    
+				<if test="name != null"> and t2.name = #{name}</if>
+			    
+				<if test="fileid != null"> and t2.fileid = #{fileid}</if>
+			    
+				<if test="dirid != null"> and t2.dirid = #{dirid}</if>
+				
+				<if test="filesuffix != null"> and t2.filesuffix = #{filesuffix}</if>
+				
+				<if test="size != null"> and t2.size = #{size}</if>
+				
+				<if test="expiredate != null"> and t2.expiredate = #{expiredate}</if>
+				
+				<if test="downnum != null"> and t2.downnum = #{downnum}</if>
+				
+				<if test="url != null"> and t3.url = #{url}</if>
+			    
+			    
+				<if test="opttimeLt != null"><![CDATA[and t.approvedate <= #{opttimeLt}]]> </if>
+				
+				<if test="opttimeGt != null"><![CDATA[and t.approvedate >= #{opttimeGt}]]></if>	
+			    
+				<if test="filenameLike != null"> 
+			    	and t.filename like CONCAT('%',#{filenameLike},'%') 
+			    </if>
+			    
+				<if test="keywordsLike != null"> 
+			    	AND (
+			    	
+					<foreach item="item" collection="keywordsLike" separator=" or ">
+			    		t.keyword LIKE CONCAT('%',#{item},'%') 
+			    	</foreach>
+			    	OR
+			   		EXISTS (SELECT KEYWORD FROM base_file_standbook t4 WHERE t.approvefileid = t4.fileid 
+			   		
+					<foreach item="item" collection="keywordsLike" open="and (" separator=" or " close=")">
+			    		t4.keyword LIKE CONCAT('%',#{item},'%') 
+			    	</foreach>
+			   		))
+			    
+				</if>
+			    
+				<choose>
+					<when test="leftjoinbyorgids != null">
+			    		
+						<if test="orgidLike != null"> and CONCAT(";",#{orgidLike},";") like CONCAT("%;",t4.id,";%") </if>
+			    	
+					</when>
+					<otherwise>
+			   			
+						<if test="orgidLike != null"> and CONCAT(";",t.orgids,";") like CONCAT("%;",#{orgidLike},";%") </if>
+			   		
+					</otherwise>
+				</choose>
+			    
+				<!-- 过滤未完成的台帐文件  -->
+			    
+				<if test="standbookComplete != null">
+				    AND 
+				    
+					<if test="standbookComplete == 1">!</if>
+				    ((t.FILETYPE = 1 AND  
+					(EXISTS (SELECT t5.ID FROM base_file_standbook t5 
+						where t5.UPLOADTEMPID = t.ID AND t5.ISCOMPLETE != 1 
+							AND CONCAT(";",t.ORGIDS,";") like CONCAT("%;",t5.ORGID,";%"))
+					 OR (t.THIRDDOCID IS NOT NULL AND (t.ORGIDS IS NULL OR TRIM(t.ORGIDS) = ""))
+					)) OR t.FILETYPE IS NULL)
+				
+				</if> 
+				
+				<if test="subjectsLike">
+					AND EXISTS(SELECT t6.ID FROM base_file_standbook t6 where t6.UPLOADTEMPID = t.ID 
+					
+					<foreach item="item" index="index" collection="subjectsLike" open="and (" separator=" or " close=")">  
+						CONCAT("%,",t6.SUBJECT,",%") LIKE CONCAT("%,",${item},",%")
+					</foreach>
+					)
+				
+				</if>
+		   
+			</trim>
+		   
+			<!-- or 查询 主要用与数据权限控制 -->
+			
+			<if test="dataLimit != null">
+				
+				<foreach item="item" index="index" collection="dataLimit" open="and (" separator=" or " close=")">  
+				  t.${item}
+				</foreach>
+			
+			</if>
+			
+			<!-- or 查询 主要用与单位数据权限 -->
+			
+			<if test="orgcodes != null and leftjoinbyorgids != null">
+				
+				<choose>
+					<when test="orgcodes.size==0">
+					   and 1=2
+					</when>
+					<otherwise>
+						
+						<foreach item="item" index="index" collection="orgcodes" open="and (" separator=" or " close=")">							 
+							 t4.code like CONCAT(#{item},'%')
+						</foreach>
+					
+					</otherwise>
+				</choose>
+            
+			</if>			
+		
+		</where>
+		
+		<choose>
+			<when test="sorting != null">order by t.${sorting}</when>
+			<otherwise>
+				order by t.approvedate DESC , t.ID DESC
+			</otherwise>
+		</choose>
+	
+	</sql>
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long" parameterType="java.util.Map">
+		select count(t.id)
+		from base_file_uploadtemp t
+	    LEFT JOIN base_file_dirfile t2 ON t.APPROVEFILEID = t2.ID
+	    LEFT JOIN base_file t3 ON t2.FILEID=t3.ID
+	    
+		<if test="leftjoinbyorgids != null"> LEFT JOIN base_org_virtual t4 ON CONCAT(";",t.ORGIDS,";") like CONCAT("%;",t4.ID,";%") </if>
+		
+		<include refid="Base_Where_Clause"/>
+	
+	</select>
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		
+		<include refid="Base_Column_List"/>
+		
+		<if test="leftjoinbyorgids != null"> ,t4.id as orgid </if>
+		from base_file_uploadtemp t
+		LEFT JOIN base_file_dirfile t2 ON t.APPROVEFILEID = t2.ID
+        LEFT JOIN base_file t3 ON t2.FILEID=t3.ID
+        
+		<if test="leftjoinbyorgids != null"> LEFT JOIN base_org_virtual t4 ON CONCAT(";",t.ORGIDS,";") like CONCAT("%;",t4.ID,";%") </if>
+		
+		<include refid="Base_Where_Clause"/>
+	
+	</select>
+	<select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+       select 
+       
+		<include refid="Base_Column_List"/>
+       from base_file_uploadtemp t
+       LEFT JOIN base_file_dirfile t2 ON t.APPROVEFILEID = t2.ID
+	   LEFT JOIN base_file t3 ON t2.FILEID=t3.ID
+       where t.ID = #{id,jdbcType=INTEGER}
+    
+	</select>
+	<delete id="deleteById" parameterType="java.lang.Integer">
+        update base_file_uploadtemp set delflag=1 
+        where ID = #{id,jdbcType=INTEGER}
+    </delete>
+	<insert id="insert" parameterType="com.commnetsoft.admin.model.sys.UploadTemp" useGeneratedKeys="true" keyProperty="id">
+       insert base_file_uploadtemp
+	    
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+		       
+			<if test="id != null">
+		          ID,
+		       </if>
+			   
+			<if test="orgids != null">
+			      ORGIDS,
+			   </if>
+			   
+			<if test="approvenum != null">
+			      APPROVENUM,
+			   </if>
+			   
+			<if test="approvefileid != null">
+			      APPROVEFILEID,
+			   </if>
+			   
+			<if test="filename != null">
+			      FILENAME,
+			   </if>
+			   
+			<if test="keyword != null">
+			      KEYWORD,
+			   </if>
+			   
+			<if test="approvedate != null">
+			      APPROVEDATE,
+			   </if>
+			   
+			<if test="filesource != null">
+			      FILESOURCE,
+			   </if>
+			   
+			<if test="thirddocid != null">
+			      THIRDDOCID,
+			   </if>
+			   
+			<if test="filerelated != null">
+			      FILERELATED,
+			   </if>
+			   
+			<if test="filetype != null">
+			      FILETYPE,
+			   </if>
+			   
+			<if test="createuser != null">
+			      CREATEUSER,
+			   </if>
+			   
+			<if test="createtime != null">
+			      CREATETIME,
+			   </if>
+			   
+			<if test="updateuser != null">
+			      UPDATEUSER,
+			   </if>
+			   
+			<if test="updatetime != null">
+			      UPDATETIME,
+			   </if>
+			   
+			<if test="delflag != null">
+			      DELFLAG,
+			   </if>
+		
+		</trim>
+		
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+		   
+			<if test="id != null">
+             #{id,jdbcType=INTEGER},
+           </if>
+				
+			<if test="orgids !=null">
+					#{orgids,jdbcType=VARCHAR},
+				</if>
+				
+			<if test="approvenum !=null">
+					#{approvenum,jdbcType=VARCHAR},
+				</if>
+				
+			<if test="approvefileid !=null">
+					#{approvefileid,jdbcType=INTEGER},
+				</if>
+				
+			<if test="filename !=null">
+					#{filename,jdbcType=VARCHAR},
+				</if>
+				
+			<if test="keyword !=null">
+					#{keyword,jdbcType=VARCHAR},
+				</if>
+				
+			<if test="approvedate !=null">
+					#{approvedate,jdbcType=VARCHAR},
+				</if>
+				
+			<if test="filesource !=null">
+					#{filesource,jdbcType=INTEGER},
+				</if>
+				
+			<if test="thirddocid !=null">
+					#{thirddocid,jdbcType=VARCHAR},
+				</if>
+				
+			<if test="filerelated !=null">
+					#{filerelated,jdbcType=INTEGER},
+				</if>
+				
+			<if test="filetype !=null">
+					#{filetype,jdbcType=INTEGER},
+				</if>
+				
+			<if test="createuser !=null">
+					#{createuser,jdbcType=INTEGER},
+				</if>
+				
+			<if test="createtime !=null">
+					#{createtime,jdbcType=TIMESTAMP},
+				</if>
+				
+			<if test="updateuser !=null">
+					#{updateuser,jdbcType=INTEGER},
+				</if>
+				
+			<if test="updatetime !=null">
+					#{updatetime,jdbcType=TIMESTAMP},
+				</if>
+				
+			<if test="delflag !=null">
+					#{delflag,jdbcType=INTEGER},
+				</if>
+		
+		</trim>
+	
+	</insert>
+	<update id="updateByIdSelective" parameterType="com.commnetsoft.admin.model.sys.UploadTemp">
+	    update base_file_uploadtemp
+		
+		<set>
+			
+			<if test="orgids != null">
+                 ORGIDS = #{orgids,jdbcType=VARCHAR},
+            </if>
+			
+			<if test="approvenum != null">
+                 APPROVENUM = #{approvenum,jdbcType=VARCHAR},
+            </if>
+			
+			<if test="approvefileid != null">
+                 APPROVEFILEID = #{approvefileid,jdbcType=INTEGER},
+            </if>
+			
+			<if test="filename != null">
+                 FILENAME = #{filename,jdbcType=VARCHAR},
+            </if>
+			
+			<if test="keyword != null">
+                 KEYWORD = #{keyword,jdbcType=VARCHAR},
+            </if>
+			
+			<if test="approvedate != null">
+                 APPROVEDATE = #{approvedate,jdbcType=VARCHAR},
+            </if>
+			
+			<if test="filesource != null">
+                 FILESOURCE = #{filesource,jdbcType=INTEGER},
+            </if>
+			
+			<if test="thirddocid != null">
+                 THIRDDOCID = #{thirddocid,jdbcType=VARCHAR},
+            </if>
+			
+			<if test="filerelated != null">
+                 FILERELATED = #{filerelated,jdbcType=INTEGER},
+            </if>
+			
+			<if test="filetype != null">
+                 FILETYPE = #{filetype,jdbcType=INTEGER},
+            </if>
+			
+			<if test="createuser != null">
+                 CREATEUSER = #{createuser,jdbcType=INTEGER},
+            </if>
+			
+			<if test="createtime != null">
+                 CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+			
+			<if test="updateuser != null">
+                 UPDATEUSER = #{updateuser,jdbcType=INTEGER},
+            </if>
+			
+			<if test="updatetime != null">
+                 UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+			
+			<if test="delflag != null">
+                 DELFLAG = #{delflag,jdbcType=INTEGER},
+            </if>
+		
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	
+	</update>
+	<update id="updateById" parameterType="com.commnetsoft.admin.model.sys.UploadTemp">
+        update base_file_uploadtemp
+		set
+		        ORGIDS = #{orgids,jdbcType=VARCHAR},
+		        APPROVENUM = #{approvenum,jdbcType=VARCHAR},
+		        APPROVEFILEID = #{approvefileid,jdbcType=INTEGER},
+		        FILENAME = #{filename,jdbcType=VARCHAR},
+		        KEYWORD = #{keyword,jdbcType=VARCHAR},
+		        APPROVEDATE = #{approvedate,jdbcType=VARCHAR},
+		        FILESOURCE = #{filesource,jdbcType=INTEGER},
+		        THIRDDOCID = #{thirddocid,jdbcType=VARCHAR},
+		        FILERELATED = #{filerelated,jdbcType=INTEGER},
+		        FILETYPE = #{filetype,jdbcType=INTEGER},
+		        CREATEUSER = #{createuser,jdbcType=INTEGER},
+		        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+		        UPDATEUSER = #{updateuser,jdbcType=INTEGER},
+		        UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+				DELFLAG = #{delflag,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
