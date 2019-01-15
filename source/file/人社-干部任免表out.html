@@ -1,0 +1,168 @@
+<html>
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="../static/styles/pdfexport.css" type="text/css"> 
+ </head>
+ <body>
+  <div class="wrap"> 
+   <div class="t-wrap"> 
+    <p class="t-h1"> 干部任免审批表 </p> 
+   </div> 
+   <p> </p>
+   <table border="1px" cellspacing="0" cellpadding="0px" width="100%" class="tab"> 
+    <tbody> 
+     <tr> 
+      <td width="10%" style="height:50px;"> 姓名 </td> 
+      <td width="10%" style="height:50px;"> ${username} </td> 
+      <td width="15%" style="height:50px;"> 性别 </td> 
+      <td width="15%" style="height:50px;"> ${sex} </td> 
+      <td width="15%" style="height:50px;"> <p> 出生年月 </p> <p> (岁) </p> </td> 
+      <td width="15%" style="height:50px;"> <p> ${birthday} </p> <p> (${age}岁) </p> </td> 
+      <td width="20%" rowspan="4" style="height:50px;"> </td> 
+     </tr> 
+     <tr> 
+      <td style="height:50px;"> 民族 </td> 
+      <td style="height:50px;"> ${nation} </td> 
+      <td style="height:50px;"> 籍贯 </td> 
+      <td style="height:50px;"> ${area} </td> 
+      <td style="height:50px;"> 出生地 </td> 
+      <td style="height:50px;"> ${address} </td> 
+     </tr> 
+     <tr> 
+      <td style="height:50px;"> 入党时间 </td> 
+      <td style="height:50px;"> ${partytime} </td> 
+      <td style="height:50px;"> 参加工作时间 </td> 
+      <td style="height:50px;"> ${worktime} </td> 
+      <td style="height:50px;"> 健康状况 </td> 
+      <td style="height:50px;"> ${health} </td> 
+     </tr> 
+     <tr> 
+      <td style="height:50px;"> 专业技术职务 </td> 
+      <td colspan="2" style="height:50px;"> ${specialtyposition} </td> 
+      <td style="height:50px;"> 熟悉专业有何专长 </td> 
+      <td colspan="2" style="height:50px;"> ${sxzyyhtc} </td> 
+     </tr> 
+     <tr> 
+      <td rowspan="2" style="height:50px;"> 学历学位 </td> 
+      <td style="height:50px;"> <p> 全日制 </p> <p> 教&nbsp;育 </p> </td> 
+      <td colspan="2" style="height:50px;"> <p> ${fulltimeeducation} </p> <p> ${fulltimedegree} </p> </td> 
+      <td style="height:50px;"> 毕业院校系及专业 </td> 
+      <td colspan="2" style="height:50px;"> <p> ${fulltimeschools} </p> <p> ${fulltimespecialty} </p> </td> 
+     </tr> 
+     <tr> 
+      <td style="height:50px;"> <p> 在&nbsp;职 </p> <p> 教&nbsp;育 </p> </td> 
+      <td colspan="2" style="height:50px;"> <p> ${parttimeeducation} </p> <p> ${parttimedegree} </p> </td> 
+      <td style="height:50px;"> 毕业院校系及专业 </td> 
+      <td colspan="2" style="height:50px;"> <p> ${parttimeschools} </p> <p> ${parttimespecialty} </p> </td> 
+     </tr> 
+     <tr> 
+      <td colspan="2" style="height:50px;"> 现任职务 </td> 
+      <td colspan="5" style="text-align:left;height:50px;"> ${xrzw} </td> 
+     </tr> 
+     <tr> 
+      <td colspan="2" style="height:50px;"> 拟任职务 </td> 
+      <td colspan="5" style="text-align:left;height:50px;"> ${nrzw} </td> 
+     </tr> 
+     <tr> 
+      <td colspan="2" style="height:50px;"> 拟免职务 </td> 
+      <td colspan="5" style="text-align:left;height:50px;"> </td> 
+     </tr> 
+     <tr> 
+      <td style="height:50px;"> 简历 </td> 
+      <td colspan="6" style="text-align:left;height:50px;"> ${resume} </td> 
+     </tr> 
+     <tr> 
+      <td style="height:50px;"> 奖惩情况 </td> 
+      <td colspan="6" style="text-align:left;height:50px;"> ${rewardpunishments} </td> 
+     </tr> 
+     <tr> 
+      <td style="height:50px;"> 年度考核结果 </td> 
+      <td colspan="6" style="text-align:left;height:50px;"> ${annualassessment} </td> 
+     </tr> 
+     <tr> 
+      <td style="height:50px;"> 任免理由 </td> 
+      <td colspan="6" style="text-align:left;height:50px;"> </td> 
+     </tr> 
+     <tr> 
+      <td rowspan="8" style="height:50px;"> 家庭主要成员及重要社会关系 </td> 
+      <td style="height:50px;"> 称谓 </td> 
+      <td style="height:50px;"> 姓名 </td> 
+      <td style="height:50px;"> 年龄 </td> 
+      <td style="height:50px;"> 政治面貌 </td> 
+      <td colspan="2" style="height:50px;"> 工作单位及职位 </td> 
+     </tr> 
+     <tr> 
+      <td style="height:50px;"> ${appellation1} </td> 
+      <td style="height:50px;"> ${name1} </td> 
+      <td style="height:50px;"> ${age1} </td> 
+      <td style="height:50px;"> ${politicalstatus1} </td> 
+      <td colspan="2" style="text-align:left;height:50px;"> ${jobinformation1}&nbsp; </td> 
+     </tr> 
+     <tr> 
+      <td style="height:50px;"> ${appellation2} </td> 
+      <td style="height:50px;"> ${name2} </td> 
+      <td style="height:50px;"> ${age2} </td> 
+      <td style="height:50px;"> ${politicalstatus2} </td> 
+      <td colspan="2" style="text-align:left;height:50px;"> ${jobinformation2}&nbsp; </td> 
+     </tr> 
+     <tr> 
+      <td style="height:50px;"> ${appellation3} </td> 
+      <td style="height:50px;"> ${name3} </td> 
+      <td style="height:50px;"> ${age3} </td> 
+      <td style="height:50px;"> ${politicalstatus3} </td> 
+      <td colspan="2" style="text-align:left;height:50px;"> ${jobinformation3}&nbsp; </td> 
+     </tr> 
+     <tr> 
+      <td style="height:50px;"> ${appellation4} </td> 
+      <td style="height:50px;"> ${name4} </td> 
+      <td style="height:50px;"> ${age4} </td> 
+      <td style="height:50px;"> ${politicalstatus4} </td> 
+      <td colspan="2" style="text-align:left;height:50px;"> ${jobinformation4}&nbsp; </td> 
+     </tr> 
+     <tr> 
+      <td style="height:50px;"> ${appellation5} </td> 
+      <td style="height:50px;"> ${name5} </td> 
+      <td style="height:50px;"> ${age5} </td> 
+      <td style="height:50px;"> ${politicalstatus5} </td> 
+      <td colspan="2" style="text-align:left;height:50px;"> ${jobinformation5}&nbsp; </td> 
+     </tr> 
+     <tr> 
+      <td style="height:50px;"> ${appellation6} </td> 
+      <td style="height:50px;"> ${name6} </td> 
+      <td style="height:50px;"> ${age6} </td> 
+      <td style="height:50px;"> ${politicalstatus6} </td> 
+      <td colspan="2" style="text-align:left;height:50px;"> ${jobinformation6}&nbsp; </td> 
+     </tr> 
+     <tr> 
+      <td style="height:50px;"> ${appellation7} </td> 
+      <td style="height:50px;"> ${name7} </td> 
+      <td style="height:50px;"> ${age7} </td> 
+      <td style="height:50px;"> ${politicalstatus7} </td> 
+      <td colspan="2" style="text-align:left;height:50px;"> ${jobinformation7}&nbsp; </td> 
+     </tr> 
+     <tr> 
+      <td height="80px" style="height:50px;"> 呈报单位 </td> 
+      <td colspan="6" class="rydd-option-qwb" style="height:50px;"> <span>______年___月___日</span> </td> 
+     </tr> 
+     <tr> 
+      <td height="80px" style="height:50px;"> 审批机关意见 </td> 
+      <td colspan="3" class="rydd-option-qwb" style="height:50px;"> 
+       <div> 
+        <p style="margin-right:20px;"> (盖章) </p> 
+        <p> ______年___月___日 </p> 
+       </div> </td> 
+      <td style="height:50px;"> 行政机关任免意见 </td> 
+      <td colspan="2" class="rydd-option-qwb" style="height:50px;"> 
+       <div> 
+        <p style="margin-right:20px;"> (盖章) </p> 
+        <p> ______年___月___日 </p> 
+       </div> </td> 
+     </tr> 
+    </tbody> 
+   </table> 
+   <p></p> 
+   <p style="line-height:20px;margin-top:5px;text-indent:10px;"> 填表人:__________ </p> 
+   <p> <br> </p> 
+  </div>
+ </body>
+</html>
