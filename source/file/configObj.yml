@@ -1,0 +1,57 @@
+--- !jyaml.TempObject
+attr: 
+  HIS: &2 1
+  Boom: JOCK
+  OPL: !java.lang.Double 7.8
+  IST: true
+names: 
+  - !jyaml.NodeObject
+    count: *2
+    nums: !java.lang.Double 2.0
+    standerName: Name1
+    total: !java.lang.Long 1000
+  - !jyaml.NodeObject
+    count: 2
+    nums: !java.lang.Double 4.0
+    standerName: Name2
+    total: !java.lang.Long 2000
+  - !jyaml.NodeObject
+    count: 3
+    nums: !java.lang.Double 6.0
+    standerName: Name3
+    total: !java.lang.Long 3000
+  - !jyaml.NodeObject
+    count: 4
+    nums: !java.lang.Double 8.0
+    standerName: Name4
+    total: !java.lang.Long 4000
+  - !jyaml.NodeObject
+    count: 5
+    nums: !java.lang.Double 10.0
+    standerName: Name5
+    total: !java.lang.Long 5000
+  - !jyaml.NodeObject
+    count: 6
+    nums: !java.lang.Double 12.0
+    standerName: Name6
+    total: !java.lang.Long 6000
+  - !jyaml.NodeObject
+    count: 7
+    nums: !java.lang.Double 14.0
+    standerName: Name7
+    total: !java.lang.Long 7000
+  - !jyaml.NodeObject
+    count: 8
+    nums: !java.lang.Double 16.0
+    standerName: Name8
+    total: !java.lang.Long 8000
+  - !jyaml.NodeObject
+    count: 9
+    nums: !java.lang.Double 18.0
+    standerName: Name9
+    total: !java.lang.Long 9000
+  - !jyaml.NodeObject
+    count: 10
+    nums: !java.lang.Double 20.0
+    standerName: Name10
+    total: !java.lang.Long 10000

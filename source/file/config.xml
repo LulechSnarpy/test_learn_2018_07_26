@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root>
+  <table name="CMD_PRODUCT_SETUP">
+    <relation type="code2key">
+      <map code="reportSupervision" dictkey="100042"/>
+      <map code="isNvlType" dictkey="100044"/>
+      <map code="investNature" dictkey="100048"/>
+      <map code="isParent" dictkey="100000"/>
+      <map code="incomeType" dictkey="100050"/>
+      <map code="operateType" dictkey="100043"/>
+      <map code="investFlag" dictkey="100041"/>
+      <map code="divType" dictkey="100046"/>
+      <map code="deviationCheckRules" dictkey="100025"/>
+      <map code="collectType" dictkey="110009"/>
+      <map code="investerChannel" dictkey="100051"/>
+      <map code="manageType" dictkey="100069"/>
+      <map code="isNeedNav" dictkey="100045"/>
+      <map code="calaType" dictkey="110010"/>
+      <map code="custType" dictkey="110012"/>
+      <map code="divFrequency" dictkey="100047"/>
+      <map code="curCode" dictkey="110011"/>
+      <map code="fiduciaryDuty" dictkey="100070"/>
+      <map code="isVpd" dictkey="100000"/>
+      <map code="cashManagement" dictkey="100000"/>
+    </relation>
+    <relation type="name2field">
+      <map name="reportSupervision" field="报送监管口径"/>
+      <map name="divYearSeason" field="分红月"/>
+      <map name="expectedReturn" field="产品预期收益率%"/>
+      <map name="foundAmt" field="产品成立金额(万)"/>
+      <map name="investName" field="产品名称"/>
+      <map name="investChannel" field="投资通道"/>
+      <map name="investSeriesCode" field="所属组合"/>
+      <map name="investerChannel" field="目标客户类型"/>
+      <map name="ownerUser" field="所属用户"/>
+      <map name="manageType" field="管理方式"/>
+      <map name="winupPaydate" field="产品兑付日"/>
+      <map name="isNeedNav" field="申赎使用净值"/>
+      <map name="maturityDate" field="产品到期日"/>
+      <map name="divFrequency" field="分红频率"/>
+      <map name="curCode" field="币种"/>
+      <map name="isVpd" field="虚拟产品"/>
+      <map name="investRegisterCode" field="产品登记编码"/>
+      <map name="isNvlType" field="净值类型"/>
+      <map name="investNature" field="投资性质"/>
+      <map name="investBrand" field="产品品牌"/>
+      <map name="isParent" field="是否子产品"/>
+      <map name="startCouponDate" field="产品起息日"/>
+      <map name="investCode" field="产品代码"/>
+      <map name="divSettlementDay" field="分红日"/>
+      <map name="incomeType" field="产品收益类型"/>
+      <map name="openDays" field="开放周期(天)"/>
+      <map name="operateType" field="运作方式"/>
+      <map name="investFlag" field="产品模式"/>
+      <map name="divType" field="分红类型"/>
+      <map name="investPeriod" field="产品期次"/>
+      <map name="productTerm" field="产品期限(天)"/>
+      <map name="deviationCheckRules" field="偏离度检核规则"/>
+      <map name="collectType" field="募集方式"/>
+      <map name="calaType" field="计息基准"/>
+      <map name="custType" field="客户类型"/>
+      <map name="fiduciaryDuty" field="受托职责"/>
+      <map name="custodyAccount" field="托管账户"/>
+      <map name="cashManagement" field="是否现金管理类产品"/>
+    </relation>
+  </table>
+</root>
