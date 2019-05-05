@@ -69,19 +69,19 @@ public class BTTree<T> {
 	}
 	
 	public void createCode(Node<T> p) {
-		if (null == p) return;
+		if (null == p || p.isLeaf()) return;
 		int psize = p.getSize();
 		Node<T> cmax = null;
 		Node<T> pmax = null;
-		if (psize < width) {
+		while(psize < width){
 			cmax = findMax(p, 0);
-		}
-		if (null != cmax) {
+			if (null == cmax) break;
 			pmax = cmax.getParent();
 			pmax.removeChild(cmax);
 			p.setChild(psize, cmax);
 			cmax.setParent(p);
 			p.sort();
+			psize = p.getSize();
 		}
 		for (Node<T> c : p.getChilds()) {
 			createCode(c);
@@ -91,11 +91,12 @@ public class BTTree<T> {
 	public Node<T> findMax(Node<T> p, int step) {
 		Node<T> node = null;
 		Node<T> cmax = null;
-		if (null == p || 2 == step) return cmax;
+		if (step == 2) return p;
+		if (null == p || p.isLeaf()) return cmax;
 		for (Node<T> c : p.getChilds()) {
 			node = findMax(c, step + 1);
 			if (null == node) continue;
-			cmax = cmax.getWeight() < node.getWeight() ? cmax : node;
+			cmax = cmax == null || cmax.getWeight() < node.getWeight() ? node : cmax;
 		}
 		return cmax;
 	}
@@ -128,7 +129,7 @@ public class BTTree<T> {
 	public static void main(String[] args) {
 	  BTTree<Character> btTree = new BTTree<>("1,2,3,4".split(",")); 
 	  List<Character> v = new ArrayList<>();
-	  for (Character c : "Hello World!".toCharArray()) {
+	  for (Character c : "在那遥远的地方，有位老流氓，他带着神秘的面罩，调戏所有美丽的姑娘。".toCharArray()) {
 		  v.add(c);
 	  }
 	  System.out.println("---------Code Strat------------");
@@ -199,9 +200,8 @@ public class BTTree<T> {
 			}
 			if (i < size-1) {
 				System.arraycopy(childs, i+1, childs, i, size-i-1);
-			} else {
-				childs[size-1] = null;
-			}
+			} 
+			childs[size-1] = null;
 			size--;
 			this.weight -= node.weight;
 		}
