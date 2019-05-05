@@ -1,14 +1,12 @@
 package huffman;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.TreeMap;
-
-import com.google.common.cache.Weigher;
 
 public class BTTree<T> {
 	private final Integer DEFUALT_WIDTH = 2;
@@ -21,8 +19,12 @@ public class BTTree<T> {
 	private String[] codeValue = {"0", "1"};
 	public BTTree() {}
 
-	public BTTree(Integer width) {
-		this.width = null == width ? DEFUALT_WIDTH : width;
+	public BTTree(String[] codeValue) {
+		if (null == codeValue) return;
+		int width = codeValue.length;
+		if (width < 2) return;
+		this.codeValue = codeValue;
+		this.width = width;
 	}
 	
 	public void createCode(List<T> list) {
@@ -43,10 +45,12 @@ public class BTTree<T> {
 			l = nodes.size();
 			for (int i = 0; i<l && i < width; i++) {
 				child = nodes.poll();
+				child.setParent(head);
 				head.setChild(i, child);
 			}
 			nodes.add(head);
 		}
+		createCode(head);
 		createCode(head,"");
 	}
 	
@@ -62,6 +66,38 @@ public class BTTree<T> {
 			keys.put(s, p.getValue());
 			System.out.println("Value : " +p.getValue() +" ,Code : " +s);
 		}
+	}
+	
+	public void createCode(Node<T> p) {
+		if (null == p) return;
+		int psize = p.getSize();
+		Node<T> cmax = null;
+		Node<T> pmax = null;
+		if (psize < width) {
+			cmax = findMax(p, 0);
+		}
+		if (null != cmax) {
+			pmax = cmax.getParent();
+			pmax.removeChild(cmax);
+			p.setChild(psize, cmax);
+			cmax.setParent(p);
+			p.sort();
+		}
+		for (Node<T> c : p.getChilds()) {
+			createCode(c);
+		}
+	}
+	
+	public Node<T> findMax(Node<T> p, int step) {
+		Node<T> node = null;
+		Node<T> cmax = null;
+		if (null == p || 2 == step) return cmax;
+		for (Node<T> c : p.getChilds()) {
+			node = findMax(c, step + 1);
+			if (null == node) continue;
+			cmax = cmax.getWeight() < node.getWeight() ? cmax : node;
+		}
+		return cmax;
 	}
 	
 	public String encode(List<T> list) {
@@ -90,7 +126,7 @@ public class BTTree<T> {
 	}
 	
 	public static void main(String[] args) {
-	  BTTree<Character> btTree = new BTTree<>(); 
+	  BTTree<Character> btTree = new BTTree<>("1,2,3,4".split(",")); 
 	  List<Character> v = new ArrayList<>();
 	  for (Character c : "Hello World!".toCharArray()) {
 		  v.add(c);
@@ -107,7 +143,6 @@ public class BTTree<T> {
 	  k.forEach(System.out::print);
 	  System.out.println();
 	  System.out.println("---------Decode End----------------");
-	  
 	}	
 	private void addMap (T t) {
 		Integer value = values.get(t);
@@ -126,10 +161,6 @@ public class BTTree<T> {
 		public Node() {
 			super();
 			childs = new Node[width];
-		}
-		public Node(Integer weight) {
-			this();
-			this.weight = weight;
 		}
 		public Node(R value, Integer weight) {
 			this();
@@ -157,6 +188,26 @@ public class BTTree<T> {
 		}
 		public int getSize() {
 			return size;
+		}
+		
+		public void removeChild(Node<R> node) {
+			int i;
+			for ( i = 0; i < size; i++) {
+				if (node.equals(childs[i])) {
+					break;
+				}
+			}
+			if (i < size-1) {
+				System.arraycopy(childs, i+1, childs, i, size-i-1);
+			} else {
+				childs[size-1] = null;
+			}
+			size--;
+			this.weight -= node.weight;
+		}
+		
+		public void sort() {
+			Arrays.sort(childs, (x, y)->(x.weight - y.weight));
 		}
 		
 		public void setChild(int index,Node<R> node) {
