@@ -21,11 +21,13 @@ public class BTTree<T> {
 	public BTTree() {}
 
 	public BTTree(String[] codeValue) {
-		if (null == codeValue) return;
-		int width = codeValue.length;
-		if (width < 2) return;
-		this.codeValue = codeValue;
-		this.width = width;
+		if (null != codeValue) {
+            int width = codeValue.length;
+            if (width > 1) {
+                this.codeValue = codeValue;
+                this.width = width;
+            }
+        }
 	}
 	
 	public void addMap(List<T> list) {
