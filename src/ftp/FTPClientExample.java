@@ -82,8 +82,8 @@ public final class FTPClientExample
         "\t-Y format - set recent date format string\n" +
         "\t-Z timezone - set the server timezone for parsing LIST responses\n" +
         "\t-z timezone - set the timezone for displaying MDTM, LIST, MLSD, MLST responses\n" +
-        "\t-PrH server[:port] - HTTP Proxy host and optional port[80] \n" +
-        "\t-PrU user - HTTP Proxy server username\n" +
+        "\t-PrH server[:port] - HTTP Proxy host and optional port[80] \\n\" +\n" +
+                "        \"\\t-PrU user - HTTP Proxy server username\n" +
         "\t-PrP password - HTTP Proxy server password\n" +
         "\t-# - add hash display during transfers\n";
 
