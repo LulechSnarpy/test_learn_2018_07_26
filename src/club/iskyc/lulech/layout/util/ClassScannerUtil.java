@@ -1,21 +1,38 @@
 package club.iskyc.lulech.layout.util;
 
 
-import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
+/**
+ * TODO : Fix for jar
+ * @author lulec
+ * */
 public class ClassScannerUtil {
-    public static void main(String[] args) {
-        getScannedClasses().stream().forEach(System.out::println);
+
+    public static Tree<MarkedElement<String, Class>> getTreeClassNames() {
+        List<Class> classes = getScannedClasses();
+        Tree<MarkedElement<String, Class>> tree
+                = new Tree<>(new MarkedElement<>("", null) , classes.size());
+        MarkedElement<String, Class> p;
+        MarkedElement<String, Class> leaf = null;
+        for (Class clazz : classes) {
+            String[] names = clazz.getName().split("\\.");
+            String mark = null;
+            p = tree.getHead();
+            for (String name : names) {
+                mark = null == mark? name : mark + "." + name;
+                leaf = new MarkedElement<>(mark, null);
+                tree.add(leaf, p);
+                p = leaf;
+            }
+            leaf.setData(clazz);
+        }
+        return tree;
     }
 
     public static List<Class> getScannedClasses() {
@@ -47,7 +64,6 @@ public class ClassScannerUtil {
     }*/
 
     public static List<Class> getScannedClasses(String packageName, Class annotation) {
-        System.out.println("getScannedClasses: " + packageName);
         List<Class> classes;
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(ClassLoader.getSystemClassLoader()
@@ -75,7 +91,6 @@ public class ClassScannerUtil {
     }
 
     private static Class getClass(String className, String packageName) {
-        System.out.println(packageName + ":" + className);
         try {
             return Class.forName(packageName + "."
                     + className.substring(0, className.lastIndexOf('.')));
