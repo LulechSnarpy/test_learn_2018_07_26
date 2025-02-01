@@ -24,14 +24,14 @@ public class ChangeFileNames {
                 Files.list(Paths.get(dir))
                 .filter(path -> Files.isRegularFile(path))
                 .map(path -> path.toString())
-                .filter(x -> x.endsWith(".mkv"))
+                .filter(x -> x.endsWith(".mp4"))
                 .map(x -> x.substring(0, x.lastIndexOf('.')))
                 .collect(Collectors.toList());
         List<Path> paths = Files.list(Paths.get(dir))
                 .filter(path -> Files.isRegularFile(path))
                 .filter(path -> path.toString().endsWith(".sc.ass"))
                 .collect(Collectors.toList());
-        if (filenames.size() != paths.size()) {
+        if (filenames.size() < paths.size()) {
             throw new Exception("文件数量异常");
         }
         for (int i = 0; i < paths.size(); i++) {
