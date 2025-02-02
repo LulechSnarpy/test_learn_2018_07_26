@@ -223,7 +223,7 @@ END procedure_name;
 12 begin
 13     v_1:='测试人员';
 14     v_2:='北京';
-15     str := 'INSERT INTO test (name ,address) VALUES (:1, :2)';
+15     str := 'INSERT INTO club.iskyc.lulech.elden.test (name ,address) VALUES (:1, :2)';
 16     EXECUTE IMMEDIATE str USING v_1, v_2;
 17     commit;
 18 end;
