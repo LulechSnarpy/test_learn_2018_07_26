@@ -20,18 +20,18 @@ public class SMenuBar extends JMenuBar {
 
     private void initAll() {
         JMenu jMenu = new JMenu(" Nodes");
-        Tree<MarkedElement<String, Class>> tree = ClassScannerUtil.getTreeClassNames();
-        TreeNode<MarkedElement<String, Class>> head = tree.getHeadNode();
+        Tree<MarkedElement<String, Class<?>>> tree = ClassScannerUtil.getTreeClassNames();
+        TreeNode<MarkedElement<String, Class<?>>> head = tree.getHeadNode();
         addFunctionMenus(head, jMenu);
         this.add(jMenu);
         setOpaque(true);
         setPreferredSize(new Dimension(200, 20));
     }
 
-    private void addFunctionMenus(TreeNode<MarkedElement<String, Class>> node, JMenu jMenu) {
+    private void addFunctionMenus(TreeNode<MarkedElement<String, Class<?>>> node, JMenu jMenu) {
         String title = null;
         for (;;) {
-            if (node.getLeaves().size() == 0) {
+            if (node.getLeaves().isEmpty()) {
                 if (node.getData().getData() == null) return;
                 if (null != title && !title.isEmpty()) {
                     JMenu subMenu = new JMenu(title);
@@ -50,7 +50,7 @@ public class SMenuBar extends JMenuBar {
             if (node.getLeaves().size() > 1) {
                 JMenu subMenu = new JMenu(title);
                 jMenu.add(subMenu);
-                for (TreeNode<MarkedElement<String, Class>> leaf
+                for (TreeNode<MarkedElement<String, Class<?>>> leaf
                         : node.getLeaves()) {
                     addFunctionMenus(leaf, subMenu);
                 }

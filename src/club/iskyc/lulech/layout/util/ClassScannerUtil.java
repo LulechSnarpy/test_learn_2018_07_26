@@ -1,9 +1,12 @@
 package club.iskyc.lulech.layout.util;
 
 
+import club.iskyc.lulech.annotation.RunnableExample;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.annotation.Annotation;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.nio.file.Path;
@@ -16,18 +19,17 @@ import java.util.jar.JarFile;
 import java.util.stream.Collectors;
 
 /**
- * TODO : Fix for jar
  * @author lulec
  * */
 public class ClassScannerUtil {
 
-    public static Tree<MarkedElement<String, Class>> getTreeClassNames() {
-        List<Class> classes = getScannedClasses();
-        Tree<MarkedElement<String, Class>> tree
+    public static Tree<MarkedElement<String, Class<?>>> getTreeClassNames() {
+        List<Class<?>> classes = getScannedClasses();
+        Tree<MarkedElement<String, Class<?>>> tree
                 = new Tree<>(new MarkedElement<>("", null) , classes.size());
-        MarkedElement<String, Class> p;
-        MarkedElement<String, Class> leaf = null;
-        for (Class clazz : classes) {
+        MarkedElement<String, Class<?>> p;
+        MarkedElement<String, Class<?>> leaf = null;
+        for (Class<?> clazz : classes) {
             String[] names = clazz.getName().split("\\.");
             String mark = null;
             p = tree.getHead();
@@ -42,36 +44,16 @@ public class ClassScannerUtil {
         return tree;
     }
 
-    public static List<Class> getScannedClasses() {
+    public static List<Class<?>> getScannedClasses() {
         String packageName = "club.iskyc.lulech";
-        Class annotation = null;
-        List<Class> classes = getScannedClasses(packageName, annotation)
+        Class<? extends Annotation> annotation = RunnableExample.class;
+        List<Class<?>> classes = getScannedClasses(packageName, annotation)
                 .stream().distinct().collect(Collectors.toList());
         return classes;
     }
 
-/*
-    public static Set<Class> getScannedClasses(Path path, Class annotation)
-    {
-        Set<Class> set = new HashSet<>();
-        try {
-            Stream<Path> paths = Files.list(path);
-            set.addAll(paths.filter(x -> (Files.isRegularFile(x) && x.toString().endsWith(".class")))
-                    .map(x -> getClass(x))
-                    .filter(line -> null == annotation
-                            || (null != line && line.isAnnotationPresent(annotation)))
-                    .collect(Collectors.toSet()));
-            paths.filter(x -> Files.isDirectory(x))
-                    .forEach(x -> set.addAll(getScannedClasses(x, annotation)));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            return set;
-        }
-    }*/
-
-    public static List<Class> getScannedClasses(String packageName, Class annotation) {
-        List<Class> classes = new ArrayList<>();
+    public static List<Class<?>> getScannedClasses(String packageName, Class<? extends Annotation> annotation) {
+        List<Class<?>> classes = new ArrayList<>();
         URL url = ClassLoader.getSystemResource(packageToPath(packageName));
         if (null == url) return classes;
         if (url.toString().startsWith("jar")) {
@@ -81,9 +63,11 @@ public class ClassScannerUtil {
                     JarEntry entry = entries.nextElement();
                     String name = entry.getName();
                     if (name.contains(packageToPath(packageName)) && name.endsWith(".class")) {
-                        String className = name.substring(name.lastIndexOf("/") + 1, name.length());
-                        classes.add(getClass(className,
-                                pathToPackage(Paths.get(name.substring(name.indexOf("!/") + 1, name.lastIndexOf("/"))))));
+                        String className = name.substring(name.lastIndexOf("/") + 1);
+                        Class<?> line = getClass(className,
+                                pathToPackage(Paths.get(name.substring(name.indexOf("!/") + 1, name.lastIndexOf("/")))));
+                        if (!hasAnnotation(line, annotation)) continue;
+                        classes.add(line);
                     }
                 }
             } catch (IOException e) {
@@ -92,27 +76,25 @@ public class ClassScannerUtil {
         } else {
             try(BufferedReader reader = new BufferedReader(
                 new InputStreamReader(url.openStream()))) {
-                List<String> lines = reader.lines().collect(Collectors.toList());
+                List<String> lines = reader.lines().toList();
                 classes = (lines.stream()
                             .filter(line -> line.endsWith(".class"))
                             .map(line -> getClass(line, packageName))
-                            .filter(line -> null == annotation
-                                || (null != line && line.isAnnotationPresent(annotation)))
+                            .filter(line -> hasAnnotation(line, annotation))
                             .collect(Collectors.toList()));
-                List<Class> finalClasses = classes;
+                List<Class<?>> finalClasses = classes;
                 lines.stream().filter(line -> !line.contains("."))
                             .forEach(x -> finalClasses.addAll(getScannedClasses(packageName + "." + x, annotation)));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
-       /* try{
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }*/
-
         return classes;
+    }
+
+    public static boolean hasAnnotation(Class<?> line, Class<? extends Annotation> annotation) {
+        return null == annotation
+                || (null != line && line.isAnnotationPresent(annotation));
     }
 
     private static String packageToPath(String packageName) {
@@ -125,7 +107,7 @@ public class ClassScannerUtil {
                 .replaceAll("/", ".");
     }
 
-    private static Class getClass(String className, String packageName) {
+    private static Class<?> getClass(String className, String packageName) {
         try {
             return Class.forName(packageName + "."
                     + className.substring(0, className.lastIndexOf('.')));
@@ -134,14 +116,4 @@ public class ClassScannerUtil {
         }
         return null;
     }
-
-/*    private static Class getClass(Path path) {
-        try {
-            return Class.forName(pathToPackage(path.getParent()) + "."
-                    + path.getFileName().toString().substring(0,
-                    path.getFileName().toString().lastIndexOf('.')));
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }*/
 }

@@ -1,5 +1,7 @@
 package club.iskyc.lulech.elden.file;
 
+import club.iskyc.lulech.annotation.RunnableExample;
+
 import javax.swing.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -7,6 +9,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RunnableExample
 public class ChangeFileNames {
     public static void main(String[] args) throws Exception{
         JFileChooser fileChooser = new JFileChooser();
