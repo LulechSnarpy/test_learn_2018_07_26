@@ -12,10 +12,13 @@ import java.awt.*;
 public class SMenuBar extends JMenuBar {
     private static SMenuBar sMenuBar;
 
-    private JLabel jLabel;
+    private JTextArea jTextArea;
 
-    private SMenuBar(JLabel jLabel) {
-        this.jLabel = jLabel;
+    private JPanel form;
+
+    private SMenuBar(JTextArea jTextArea, JPanel form) {
+        this.jTextArea = jTextArea;
+        this.form = form;
     }
 
     private void initAll() {
@@ -40,14 +43,14 @@ public class SMenuBar extends JMenuBar {
                 }
                 JMenuItem item = new JMenuItem(getTitleFormMark(node.getData().getMark()));
                 item.addMouseListener(
-                        new FunctionListener(jLabel, node.getData().getData()));
+                        new FunctionListener(jTextArea, form,node.getData().getData()));
                 jMenu.add(item);
                 return;
             }
             title = null == title || title.isEmpty()?
                     getTitleFormMark(node.getData().getMark())
                     : title + "." + getTitleFormMark(node.getData().getMark());
-            if (node.getLeaves().size() > 1) {
+            if (!node.getLeaves().isEmpty()) {
                 JMenu subMenu = new JMenu(title);
                 jMenu.add(subMenu);
                 for (TreeNode<MarkedElement<String, Class<?>>> leaf
@@ -56,7 +59,7 @@ public class SMenuBar extends JMenuBar {
                 }
                 return;
             }
-            node = node.getLeaves().get(0);
+            node = node.getLeaves().getFirst();
         }
     }
 
@@ -64,9 +67,9 @@ public class SMenuBar extends JMenuBar {
         return mark.substring(mark.lastIndexOf(".") + 1);
     }
 
-    public synchronized static JMenuBar getSToolBar(JLabel jLabel) {
+    public synchronized static JMenuBar getSToolBar(JTextArea jTextArea, JPanel form) {
         if (null == sMenuBar) {
-            sMenuBar = new SMenuBar(jLabel);
+            sMenuBar = new SMenuBar(jTextArea, form);
             sMenuBar.initAll();
         }
         return sMenuBar;

@@ -2,11 +2,18 @@ package club.iskyc.lulech.layout.util;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serial;
 import java.util.*;
 
-
+/**
+ * This tree is made by hashmap. Can found and distinct nodes by hashmap.
+ *
+ * @author lulec
+ * @since 1.0
+ * */
 public class Tree<E> implements RandomAccess, Cloneable, java.io.Serializable
 {
+    @Serial
     private static final long serialVersionUID = 5683452581122892189L;
     /**
      * Default initial leaves number
@@ -17,7 +24,7 @@ public class Tree<E> implements RandomAccess, Cloneable, java.io.Serializable
 
     private TreeNode<E> head;
 
-    private HashMap<E, TreeNode<E>> location = new HashMap<>();
+    private final HashMap<E, TreeNode<E>> location = new HashMap<>();
 
     public Tree() {
         initLimit();

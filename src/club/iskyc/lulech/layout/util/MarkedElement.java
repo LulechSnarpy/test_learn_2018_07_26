@@ -4,17 +4,21 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+/**
+ * This is a data type for marking a data. With making type as {@code M}, data type as {@code E}.
+ *
+ * @author lulec
+ * @since 1.0
+ * */
 public class MarkedElement<M, E> implements Comparable<MarkedElement<M, E>>, java.io.Serializable {
-
+    /**
+     * Marking for the data.
+     * */
     private M mark;
-
+    /**
+     * Data need to store in.
+     * */
     private E data;
-
-    public MarkedElement(@NotNull E data) {
-        if (this.data.getClass().equals(this.mark.getClass()))
-            this.mark = (M)data;
-        this.data = data;
-    }
 
     public MarkedElement(@NotNull M mark, E data) {
         this.mark = mark;
@@ -59,11 +63,19 @@ public class MarkedElement<M, E> implements Comparable<MarkedElement<M, E>>, jav
                 '}';
     }
 
+    /**
+     * Only return hash code mark.
+     * */
     @Override
     public int hashCode() {
         return Objects.hash(mark);
     }
 
+    /**
+     * If marking is instance of {@code Comparable} use marking's
+     * {@code compareTo(Object o)} to compare two object.
+     * Else compare {@code toString()} values.
+     * */
     @Override
     public int compareTo(MarkedElement<M, E> o) {
         if (null == o) return 1;
@@ -76,6 +88,4 @@ public class MarkedElement<M, E> implements Comparable<MarkedElement<M, E>>, jav
         }
         return this.mark.toString().compareTo(o.mark.toString());
     }
-
-    private static final long serialVersionUID = -5683452581122892188L;
 }
